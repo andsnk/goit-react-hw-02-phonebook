@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+import Notiflix from 'notiflix';
+import css from './ContactForm.module.css';
 
 export default class PhonebookForm extends Component {
   state = {
@@ -23,25 +25,34 @@ export default class PhonebookForm extends Component {
     );
 
     if (isDuplicate) {
-      alert(`${this.state.name} is already in your contacts.`);
+      // alert(`${this.state.name} is already in your contacts.`);
+      Notiflix.Notify.failure(
+        `${this.state.name} is already in your contacts.`
+      );
       return;
     }
+
     this.props.onSubmit({ ...this.state, id: nanoid(5) });
     this.setState({
       name: '',
       number: '',
     });
+    Notiflix.Notify.success(`${this.state.name} added to your contacts.`);
   };
 
   render() {
     return (
       <div>
         <form
-          style={{ display: 'flex', flexDirection: 'column', width: '300px' }}
+          className={css.form}
+          // style={{ display: 'flex', flexDirection: 'column', width: '300px' }}
           onSubmit={this.handleSubmit}
         >
-          <label htmlFor="name">Name</label>
+          <label className={css.label} htmlFor="name">
+            Name
+          </label>
           <input
+            className={css.input}
             onChange={this.handleChange}
             id="name"
             type="text"
@@ -51,8 +62,11 @@ export default class PhonebookForm extends Component {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
-          <label htmlFor="number">Number</label>
+          <label className={css.label} htmlFor="number">
+            Number
+          </label>
           <input
+            className={css.input}
             onChange={this.handleChange}
             id="number"
             type="tel"
@@ -62,7 +76,9 @@ export default class PhonebookForm extends Component {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
-          <button type="submit">Add contact</button>
+          <button className={css.addBtn} type="submit">
+            Add contact
+          </button>
         </form>
       </div>
     );

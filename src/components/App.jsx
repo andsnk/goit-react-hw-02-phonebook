@@ -49,7 +49,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Phonebook</h1>
         <ContactForm
           onSubmit={this.formSubmit}
