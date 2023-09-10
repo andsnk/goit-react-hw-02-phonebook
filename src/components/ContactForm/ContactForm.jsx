@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
 import css from './ContactForm.module.css';
+Notiflix.Notify.init({
+  width: '280px',
+  position: 'top',
+  distance: '30px',
+  opacity: 1,
+});
 
 export default class PhonebookForm extends Component {
   state = {
@@ -10,12 +16,7 @@ export default class PhonebookForm extends Component {
   };
 
   handleChange = e => {
-    // console.log(e.currentTarget.name);
-    // console.log(e.currentTarget.value);
-    this.setState(
-      { [e.currentTarget.name]: e.currentTarget.value }
-      //   console.log(this.state)
-    );
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
 
   handleSubmit = e => {
@@ -25,10 +26,13 @@ export default class PhonebookForm extends Component {
     );
 
     if (isDuplicate) {
-      // alert(`${this.state.name} is already in your contacts.`);
       Notiflix.Notify.failure(
         `${this.state.name} is already in your contacts.`
       );
+      this.setState({
+        name: '',
+        number: '',
+      });
       return;
     }
 
@@ -43,11 +47,7 @@ export default class PhonebookForm extends Component {
   render() {
     return (
       <div>
-        <form
-          className={css.form}
-          // style={{ display: 'flex', flexDirection: 'column', width: '300px' }}
-          onSubmit={this.handleSubmit}
-        >
+        <form className={css.form} onSubmit={this.handleSubmit}>
           <label className={css.label} htmlFor="name">
             Name
           </label>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Notiflix from 'notiflix';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -25,9 +26,17 @@ export default class App extends Component {
   };
 
   handleDelete = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
-    }));
+    const deletedContact = this.state.contacts.find(
+      contact => contact.id === id
+    );
+    if (deletedContact) {
+      this.setState(prevState => ({
+        contacts: prevState.contacts.filter(contact => contact.id !== id),
+      }));
+      Notiflix.Notify.info(
+        `Contact "${deletedContact.name}" has been deleted.`
+      );
+    }
   };
 
   filteredContacts = () => {
@@ -39,13 +48,6 @@ export default class App extends Component {
         .includes(normalizedValue);
     });
   };
-
-  // checkDuplicateName = name => {
-  //   const { contacts } = this.props;
-  //   return contacts.some(
-  //     contact => contact.name.toLowerCase() === name.toLowerCase()
-  //   );
-  // };
 
   render() {
     return (
