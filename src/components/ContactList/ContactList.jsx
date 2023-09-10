@@ -2,7 +2,6 @@ import React from 'react';
 import css from './ContactList.module.css';
 
 const Contacts = ({ contacts, deleteContact }) => {
-  console.log(contacts);
   return (
     <ul className={css.list}>
       {contacts.map(contact => (
